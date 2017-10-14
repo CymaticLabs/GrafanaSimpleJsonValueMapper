@@ -98,7 +98,66 @@ Your template variable queries to the configured SimpleJson datasource will refe
 
 Make sure to restart the web application after making any edits so that they will be live.
 
-### Creating Template Variables
+## Creating Template Variables
 Just for the sake of example we'll discuss how to setup a basic test using the demo data in data.json. Create a new dashboard and [configure its templating](http://docs.grafana.org/reference/templating/).
 
+First lets setup a template variable that will pull the list values into the first drop down menu:
 
+![setup-list](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-list-variable.png?raw=true)
+
+The *Variable Type* should be: `Query`
+
+The *Data source* property will be the SimpleJson datasource you setup earlier, in this example the `Template Aliasing` datasource.
+
+The query will be: `{ "data": "list" }`, where the *data* property references the top-level property/dataset in the data.json file (in this case: *list*).
+
+It's up to you if you want to include multiple values and the "All" option, but it's recommended to see how more advanced aliasing scenarios might work.
+
+Next setup the look-up template variable:
+
+![setup-lookup](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-lookup-variable.png?raw=true)
+
+The setup here is fairly similar except the query looks like this:
+
+`{ "data": "lookup", "id": "$list" }`.
+
+In this case, since *lookup* is a hash/map in data.json we can include the *id* property which says which ID it should return an alias for. This can be a hardcoded ID or set of IDs, but in this case we are using the *list* template variable directly/dynamically by using: `$list`. This way one template variable will dynamically drive the other.
+
+If you want to hardcode IDs it will look like this:
+
+`{ "data": "lookup", "id": "value1" }` (for single ID)
+
+`{ "data": "lookup", "id": "(value1|value2|value3)" }` (for multiple IDs)
+
+You template variables on your dashboard should look like this:
+
+![setup template variables](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-template-variables.png?raw=true)
+
+### Testing Things Out
+
+Now go back to your dashboard and check out the drop down list for both template variables:
+
+![test variables 1](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-list-test-1.png?raw=true)
+
+![test variables 2](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-list-test-2.png?raw=true)
+
+Selecting values from the first list should filter values from the second list (which in this example is the unreadable IDs; even though, yes, they are still readable):
+
+![filter values](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-list-test-3.png?raw=true)
+
+Now, if you were to use the template variables *$lookup* in a dashboard query, even though the menu labels are *Value 1* and *Value 3*, the actual value that would be injected into the query via the *$lookup* template variable would be *value1* and *value3*. Substitude *value1* and *value3* with a GUID instead and you'll start to get the idea.
+
+### Real World
+A more likely scenario is that you will have a hidden template variable (you can opt to hide template variables when creating them) that will query a datasource which returns the unreadable IDs, like the IoT GUIDs in the exampel further up. Then you will pass those IDs over to the aliasing datasource which will have their human-readable names in a hash look-up in data.json. The results of that template variable will be what the user sees, and then you will use that template variable in your dashboard queries to query and visualize data related to those underlying GUIDs, but the user will only ever see the human-readable version of the IDs.
+
+## Security
+If you want to secure things a bit more, you can enable HTTP BASIC authentication. When you configure your datasource in Grafana, click the checkbox to enable this and enter your desired user name and password.
+
+When you launch the Node.js web application set the environmental variables `HTTP_AUTH_USERNAME` and `HTTP_AUTH_PASSWORD` to the same values. This way, whenever a request is made to the aliasing service (*/search* in terms of the route), the request will be authenticated against these credentials.
+
+If you need more security you are encouraged to extend this project with your own solution and/or use more sophisticated proxying via Grafana.
+
+## Conclusion
+This web application primarily serves as an example only. You might be able to get by with it if your needs are simple and manually updating the data.json file and restarting the web application are not going to be deal-breakers when updates to the look-up data occur. Otherwise you are encouraged to check out the code in /routes/index.js and alter it to fit your needs.
+
+Happy Mapping!
