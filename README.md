@@ -153,11 +153,11 @@ A more likely scenario is that you will have a hidden template variable (you can
 ## Security
 If you want to secure things a bit more, you can enable HTTP BASIC authentication. When you configure your datasource in Grafana, click the checkbox to enable this and enter your desired user name and password.
 
-When you launch the Node.js web application set the environmental variables `HTTP_AUTH_USERNAME` and `HTTP_AUTH_PASSWORD` to the same values. This way, whenever a request is made to the aliasing service (*/search* in terms of the route), the request will be authenticated against these credentials.
+When you launch the Node.js web application set the environmental variables `HTTP_AUTH_USERNAME` and `HTTP_AUTH_PASSWORD` to the same values. This way, whenever a request is made to the aliasing service (`/search` in terms of the route), the request will be authenticated against these credentials.
 
 If you need more security you are encouraged to extend this project with your own solution and/or use more sophisticated proxying via Grafana.
 
 ## Conclusion
-This web application primarily serves as an example only. You might be able to get by with it if your needs are simple and manually updating the data.json file and restarting the web application are not going to be deal-breakers when updates to the look-up data occur. Otherwise you are encouraged to check out the code in /routes/index.js and alter it to fit your needs.
+This web application primarily serves as an example only. You might be able to get by with it if your needs are simple and manually updating the data.json file and restarting the web application are not going to be deal-breakers when updates to the look-up data occur. Otherwise you are encouraged to check out the code in `/routes/index.js` and alter it to fit your needs.
 
 Happy Mapping!
