@@ -147,6 +147,14 @@ Selecting values from the first list should filter values from the second list (
 
 Now, if you were to use the template variables *$lookup* in a dashboard query, even though the menu labels are *Value 1* and *Value 3*, the actual value that would be injected into the query via the *$lookup* template variable would be *value1* and *value3*. Substitude *value1* and *value3* with a GUID instead and you'll start to get the idea.
 
+There is also a *contains* property which can be included in the template variable query that will check to see if the string you supply is contained by the value (case-insensitive, substring match) before returning the result:
+
+### "Contains" Filter
+
+`{ "data":"lookup", "id":"$list", "contains":"2" }`
+
+That would only return *value2*/*Value 2* because only that entry contains the string "2" in the default test data in data.json.
+
 ### Real World
 A more likely scenario is that you will have a hidden template variable (you can opt to hide template variables when creating them) that will query a datasource which returns the unreadable IDs, like the IoT GUIDs in the exampel further up. Then you will pass those IDs over to the aliasing datasource which will have their human-readable names in a hash look-up in data.json. The results of that template variable will be what the user sees, and then you will use that template variable in your dashboard queries to query and visualize data related to those underlying GUIDs, but the user will only ever see the human-readable version of the IDs.
 
