@@ -48,3 +48,52 @@ Once you've installed the plugin and the the web application, start the web appl
 
 If you've restarted Grafana, login as a user with sufficient privileges and create a new SimpleJson datasource that will talk to the web application.
 
+![setup datasource](https://github.com/CymaticLabs/GrafanaSimpleJsonValueMapper/blob/master/public/images/setup-simplejson-datasource.png?raw=true)
+
+
+### Configure the Aliasing Data
+In the web application you will find the aliasing data file here: `/server/data.json`. You can start out using the test data that already exists in the file just to verify things work or you can edit it to add your own data.
+
+Here's a quick explanation of the test data and basic schema of the data that the web application expects:
+
+```
+{
+  "list": [
+    "value1",
+    "value2",
+    "value3"
+  ],
+  "lookup": {
+    "value1": "Value 1",
+    "value2": "Value 2",
+    "value3": "Value 3"
+  }
+}
+```
+
+Each top-level property (*"list"*, *"lookup"*, etc.) of the JSON object act as a separate dataset that you can reference when defining your template variables. This way if you have more than one set of look-up/aliasing data you don't have to put it all into one big unified list.
+
+The first entry, *"list"*, is an array that will only provide a non-aliased set of results back to Grafana's template variable query. Mostly it will be used in this example to emulate dynamic values that were received from a query from another datasource in Grafana. It does have limited usefulness in that it can be filtered with a basic string match using a "contains" approach. More on that later.
+
+Most aliasing datasets will look like the second entry, *"lookup"*, which is a hash/map, where the propery name (*value1*, *value2*, etc.) is the input/unreadable ID and its value is the human-readable alias. You will add as many of these look-up style entries as you need into the data.json file.
+
+Let's assume you had a couple regions of IoT devices for example that have GUIDs as their identifier:
+
+```
+{
+  "IoT Outside": {
+    "03e79c66-d624-459d-9a6c-caa40c428c29": "Camera North",
+    "b61a9967-7363-4d6b-a51c-27b5a539eba5": "Camera South",
+    "a0caf0b9-e5f0-4a54-b6fe-7eb8a692b3c9": "Camera East",
+    "4d84b539-e81c-4341-a97d-aa5f133b6ee3": "Camera West"
+  },
+  "IoT Inside": {
+    "bd683289-ae38-4c09-9826-17c6243b7621": "Temperature Sensor",
+    "9513dff8-6b32-4450-88ca-33786a147142": "Living Room Lights",
+  }
+}
+```
+
+Your template variable queries to the configured SimpleJson datasource will reference *"IoT Outside"* or *"IoT Inside"*. You can of course always just create a single, unified list; that is entirely up to you. You just need to create one top-level look-up entry/hash.
+
+Make sure to restart the web application after making any edits so that they will be live.
