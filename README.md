@@ -44,7 +44,7 @@ Follow the [instructions here](https://grafana.com/plugins/grafana-simple-json-d
 Install this project by cloning it or downloading it. By default when run from localhost, it should run on port 3003.
 
 ### Configure a SimpleJson datasource
-Once you've installed the plugin and the the web application, start the web application using node/npm and ensure it is running at http://localhost:3000 (or whever you are hosting it).
+Once you've installed the plugin and the the web application, start the web application using node/npm and ensure it is running at http://localhost:3003 (or whever you are hosting it).
 
 If you've restarted Grafana, login as a user with sufficient privileges and create a new SimpleJson datasource that will talk to the web application.
 
