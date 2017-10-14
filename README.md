@@ -1,4 +1,4 @@
-# Grafana SimpleJson ValueMapper
+# Grafana SimpleJson Value Mapper
 A simple Node.js/Express application that provides basic template variable aliasing/value mapping.
 
 ## What Is It For?
