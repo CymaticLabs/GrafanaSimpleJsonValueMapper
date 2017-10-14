@@ -99,6 +99,6 @@ Your template variable queries to the configured SimpleJson datasource will refe
 Make sure to restart the web application after making any edits so that they will be live.
 
 ### Creating Template Variables
-Just for the sake of example we'll discuss how to setup a basic test usign the demo data in data.json. Create a new dashboard and [configure its templating](http://docs.grafana.org/reference/templating/).
+Just for the sake of example we'll discuss how to setup a basic test using the demo data in data.json. Create a new dashboard and [configure its templating](http://docs.grafana.org/reference/templating/).
 
 
