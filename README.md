@@ -94,6 +94,11 @@ Let's assume you had a couple regions of IoT devices for example that have GUIDs
 }
 ```
 
-Your template variable queries to the configured SimpleJson datasource will reference *"IoT Outside"* or *"IoT Inside"*. You can of course always just create a single, unified list; that is entirely up to you. You just need to create one top-level look-up entry/hash.
+Your template variable queries to the configured SimpleJson datasource will reference *"IoT Outside"* or *"IoT Inside"* when doing aliasing look-ups. You can of course always just create a single, unified list; that is entirely up to you. You just need to create one top-level look-up entry/hash.
 
 Make sure to restart the web application after making any edits so that they will be live.
+
+### Creating Template Variables
+Just for the sake of example we'll discuss how to setup a basic test usign the demo data in data.json. Create a new dashboard and [configure its templating](http://docs.grafana.org/reference/templating/).
+
+
