@@ -38,6 +38,24 @@ router.get('/', function(req, res, next) {
 });
 
 /**
+ * Reload data.json
+ */
+router.post('/reload', isAuthorized, function(req, res, next) {
+
+    for (var k in require.cache) {
+
+        if (! k.match(/\/server\/data.json$/)) continue;
+
+        delete require.cache[k];
+        break;
+    }
+
+    data = require('../server/data.json');
+    res.end();
+    return;
+});
+
+/**
  * This is the API endpoint that Grafana Simple JSON Datasources uses for metrics and template variables.
  */
 router.post('/search', isAuthorized, function(req, res, next) {
